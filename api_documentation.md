@@ -66,6 +66,7 @@ Content-Type: application/json
 **Example Response:**
 ```http
 HTTP/1.1 200 OK
+Content-Type: text/plain
 Added Successfully
 ```
 
@@ -112,6 +113,7 @@ Content-Type: application/json
 **Example Response:**
 ```http
 HTTP/1.1 200 OK
+Content-Type: text/plain
 Added Successfully
 ```
 <br>
@@ -142,7 +144,7 @@ The response body includes the following fields:
 **Example Request:**
 
 ```http
-GET api/v1/amc-availability/availability?chassis_num=CHVH008&scope=Handle%20Bar
+GET /api/v1/amc-availability/availability?chassis_num=CHVH008&scope=Handle%20Bar
 ```
 
 **Example Response:**
