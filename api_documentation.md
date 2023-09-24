@@ -105,3 +105,44 @@ Content-Type: application/json
 HTTP/1.1 200 OK
 Added Successfully
 ```
+<br>
+
+# AMC Availability Controller
+## Check if a particular part/scope is covered by AMC
+
+**Endpoint URL:** `/api/v1/amc-availability/availability`
+
+**HTTP Method:** GET
+
+**Description:** Check if a particular part is covered by AMC.
+
+**Request Parameters:**
+- `chassis_num` (query parameter, string, required): The chassis_num of the concerned vehicle.
+- `scope` (query parameter, string, required): The concerened part/scope for which the amc-availability is to be checked.
+
+
+**Response:**
+- Status Code: 200 OK
+- Response Body: JSON representation of the user.
+
+**Response Body:**
+The response body includes the following fields:
+- `available` (string): The number of times the concerned part/scope can still be repaired for free under AMC.
+- `total` (string): The number of times the concerned part/scope can be repaired(in total) for free under AMC.
+
+**Example Request:**
+
+```http
+GET api/v1/amc-availability/availability?chassis_num=CHVH008&scope=Handle%20Bar
+```
+
+**Example Response:**
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+{
+    "available": 2,
+    "total": 2
+}
+```
+<br>
