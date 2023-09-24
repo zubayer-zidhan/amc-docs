@@ -5,11 +5,13 @@
   - [Check if a particular part/scope is covered by AMC](#check-if-a-particular-partscope-is-covered-by-amc)
   - [Get the list of all scopes covered by AMC for the concerned vehicle](#get-the-list-of-all-scopes-covered-by-amc-for-the-concerned-vehicle)
 - [Automovill Homes Controller](#automovill-homes-controller)
-  - [Get information about the autmovill offices in concerned state](#get-information-about-the-autmovill-offices-in-concerned-state)
+  - [Get information about the automovill offices in concerned state](#get-information-about-the-automovill-offices-in-concerned-state)
+  - [Get all homes for all states](#get-all-homes-for-all-states)
 
 
-
+All the following api end-points need `authorization` in the request header with a Bearer token (jwt token, in this case)
 # Admin Controller
+These end-points can only be accessed using a jwt token for a user with admin priveleges.
 ## Add a new vehicle
 
 **Endpoint URL:** `/api/v1/admin/addNewVehicle`
@@ -47,6 +49,7 @@ The request body for a POST request to add a new vehicle should be in JSON forma
 
 ```http
 POST /api/v1/admin/addNewVehicle
+Authorization: Bearer token
 Content-Type: application/json
 {
     "chassis_num": "CHVH013",
@@ -102,6 +105,7 @@ The request body for a POST request to add a new workshop should be in JSON form
 
 ```http
 POST /api/v1/admin/addNewWorkshop
+Authorization: Bearer token
 Content-Type: application/json
 {
     "name": "workshop18",
@@ -120,6 +124,7 @@ Content-Type: text/plain
 ```
 <br>
 
+All the remaining end-points can be accessed using a jwt token with user level or above priveleges
 # AMC Availability Controller
 ## Check if a particular part/scope is covered by AMC
 
@@ -207,7 +212,7 @@ Content-Type: application/json
 <br>
 
 # Automovill Homes Controller
-## Get information about the autmovill offices in concerned state
+## Get information about the automovill offices in concerned state
 
 **Endpoint URL:** `/api/v1/automovill-homes/{workshopId}`
 
@@ -225,7 +230,11 @@ Content-Type: application/json
 
 **Response Body:**
 The response body includes the following fields:
-- `id` (string): The id of the state of the workshop.
+- `id` (string): The id of the entry in the table.
+- `state` (string): The state to which the workshop belongs.
+- `gstin` (string): The gst number for the office in that state.
+- `cin` (string): The cin for the office in that state.
+- `pan` (string): The pan for the office in that state.
 
 **Example Request:**
 
@@ -245,6 +254,60 @@ Content-Type: application/json
     "cin": "K741IOKA201SPTC083874",
     "pan": "ALLCA9593J"
 }
+```
+<br>
+
+## Get all homes for all states
+
+**Endpoint URL:** `/api/v1/automovill-homes/allHomes`
+
+**HTTP Method:** GET
+
+**Description:** Get the list of all homes from database..
+
+**Request Parameters:**
+- No request parameters required.
+
+**Response:**
+- Status Code: 200 OK
+- Response Body: List of JSON objects.
+
+**Response Body:**
+Each item in the response body includes the following fields:
+- `id` (string): The id of the entry in the table.
+- `state` (string): The state to which the workshop belongs.
+- `gstin` (string): The gst number for the office in that state.
+- `cin` (string): The cin for the office in that state.
+- `pan` (string): The pan for the office in that state.
+
+**Example Request:**
+
+```http
+GET /api/v1/automovill-homes/allHomes
+```
+
+**Example Response:**
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+[
+    {
+        "id": 1,
+        "state": "Karnataka",
+        "address": "900, Ground Floor, 18th Cross. 2nd Main, KPC Layout, Kasavanahalli, Bangalore-35",
+        "gstin": "29AANCA9593J1ZQ",
+        "cin": "U741IOKA201SPTC083874",
+        "pan": "ABNCA9593J"
+    },
+    {
+        "id": 2,
+        "state": "Telengana",
+        "address": "587, Ground Floor, 18th Cross. 2nd Main, KPC Layout, Kasavanahalli, T-35",
+        "gstin": "89DANCA9593J1ZQ",
+        "cin": "T741IOKA201SPTC083874",
+        "pan": "ADDFA9593J"
+    },
+]
 ```
 <br>
 
