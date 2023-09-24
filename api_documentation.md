@@ -1,3 +1,6 @@
+- [Authentication Controller](#authentication-controller)
+  - [Register new users](#register-new-users)
+  - [Authenticate the existing users](#authenticate-the-existing-users)
 - [Admin Controller](#admin-controller)
   - [Add a new vehicle](#add-a-new-vehicle)
   - [Add a new workshop](#add-a-new-workshop)
@@ -7,7 +10,109 @@
 - [Automovill Homes Controller](#automovill-homes-controller)
   - [Get information about the automovill offices in concerned state](#get-information-about-the-automovill-offices-in-concerned-state)
   - [Get all homes for all states](#get-all-homes-for-all-states)
+- [Warranty Availability Controller](#warranty-availability-controller)
+  - [Check if a particular part/scope is covered by Warranty](#check-if-a-particular-partscope-is-covered-by-warranty)
+  - [Get the list of all scopes covered by Warranty for the concerned vehicle](#get-the-list-of-all-scopes-covered-by-warranty-for-the-concerned-vehicle)
+- [WarrantyScopes Controller](#warrantyscopes-controller)
+  - [Get the list of all scopes covered under "Warranty".](#get-the-list-of-all-scopes-covered-under-warranty)
 
+
+
+# Authentication Controller
+The auth api end-points are open for all. No JWT tokens required.
+## Register new users
+
+**Endpoint URL:** `/api/v1/auth/register`
+
+**HTTP Method:** POST
+
+**Description:** Register new users.
+
+**Request Parameters:**
+- Request Body
+
+**Request Body:**
+The request body for a POST request to register new users should be in JSON format and include the following fields:
+
+- `username` (string, required): The username of the workshop/users.
+- `password` (string, required): The password for the workshop/users.
+- `admin` (string, required): The role of the user.
+
+**Response:**
+- Status Code: 200 OK
+- Response Body: JSON.
+
+**Response Body:**
+The response body includes the following fields:
+- `token` (string): A JSON Web Token(JWT) that can be used to verify a user's identity in future API calls.
+
+**Example Request:**
+
+```http
+POST /api/v1/auth/register
+Content-Type: application/json
+{
+     "username": "workshop12",
+    "password": "pass",
+    "admin": false   
+}
+```
+
+**Example Response:**
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+{
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sInN1YiI6IndvcmtzaG9wMTIiLCJpYXQiOjE2OTU1ODg1MzksImV4cCI6MTY5Njg4NDUzOX0.N6cfpqJnrnEX46cUvp3RAbnTd0dB1Jq7HUE-Q2msMcI"
+}
+```
+<br>
+
+## Authenticate the existing users
+
+**Endpoint URL:** `/api/v1/auth/authenticate`
+
+**HTTP Method:** POST
+
+**Description:** Authenticate the existing users.
+
+**Request Parameters:**
+- Request Body .
+
+**Request Body:**
+The request body for a POST request to authenticate the existing users should be in JSON format and include the following fields:
+
+- `username` (string, required): The username for the workshop/user .
+- `password` (string, required): The password for the workshop/user .
+
+**Response:**
+- Status Code: 200 OK
+- Response Body: JSON.
+
+**Response Body:**
+The response body includes the following fields:
+- `token` (string): Machine-generated codes to verify a user's identity .
+
+**Example Request:**
+
+```http
+POST /api/v1/auth/authenticate
+Content-Type: application/json
+{
+    "password": "pass", 
+    "username": "workshop12"
+}
+```
+
+**Example Response:**
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+{
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sInN1YiI6IndvcmtzaG9wMTIiLCJpYXQiOjE2OTU1ODg1MzksImV4cCI6MTY5Njg4NDUzOX0.N6cfpqJnrnEX46cUvp3RAbnTd0dB1Jq7HUE-Q2msMcI"
+}
+```
+<br>
 
 # Admin Controller
 These end-points can only be accessed using a jwt token for a user with admin priveleges.
@@ -307,6 +412,133 @@ Content-Type: application/json
         "pan": "ADDFA9593J"
     },
 ]
+```
+<br>
+
+# Warranty Availability Controller
+## Check if a particular part/scope is covered by Warranty
+
+**Endpoint URL:** `/api/v1/warranty-availability/availability`
+
+**HTTP Method:** GET
+
+**Description:** Check if a particular part is covered by Warranty.
+
+**Request Parameters:**
+- `chassis_num` (query parameter, string, required): The chassis_num of the concerned vehicle.
+- `scope` (query parameter, string, required): The concerened part/scope for which the warranty-availability is to be checked.
+
+
+**Response:**
+- Status Code: 200 OK
+- Response Body: JSON.
+
+**Response Body:**
+The response body includes the following fields:
+- `available` (string): The number of times the concerned part/scope can still be repaired for free under Warranty.
+- `total` (string): The number of times the concerned part/scope can be repaired(in total) for free under Warranty.
+
+**Example Request:**
+
+```http
+GET /api/v1/warranty-availability/availability?chassis_num=CHVH002&scope=Ignition%20Lock
+```
+
+**Example Response:**
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+{
+    "available": 1,
+    "total": 2
+}
+```
+<br>
+
+## Get the list of all scopes covered by Warranty for the concerned vehicle
+
+**Endpoint URL:** `/api/v1/warranty-availability/{chassisNum}`
+
+**HTTP Method:** GET
+
+**Description:** Get the list of all scopes covered by Warranty for the concerned vehicle.
+
+**Request Parameters:**
+- `chassisNum` (path parameter): The chassis number of the concerned vehicle.
+
+**Response:**
+- Status Code: 200 OK
+- Response Body: List of JSON objects.
+
+**Response Body:**
+Each item of the response body includes the following fields:
+- `scopeOfWork` (string): The name of the scope covered by the Warranty.
+- `details` (string): Details about the scope.
+- `frequency` (int): Total number of times the concerned scope can be repaired under Warranty.
+
+**Example Request:**
+
+```http
+GET /api/v1/warranty-availability/CHVH001
+```
+
+**Example Response:**
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+[
+    {
+        "scopeOfWork": "Ignition Lock",
+        "details": "Change ignition(in total lifetime)",
+        "frequency": 2
+    },
+    {
+        "scopeOfWork": "Rear Fender",
+        "details": "Change Rear Fender (in total lifetime)",
+        "frequency": 1
+    },
+]
+```
+<br>
+
+# WarrantyScopes Controller
+## Get the list of all scopes covered under "Warranty".
+
+**Endpoint URL:** `/api/v1/warranty/warrantyScopes`
+
+**HTTP Method:** GET
+
+**Description:** Get the list of all scopes covered under "Warranty".
+
+**Response:**
+- Status Code: 200 OK
+- Response Body: JSON.
+
+**Response Body:**
+The response body includes the following fields:
+- `id` (int): The id of the warrantyScopes.
+- `warrantyId` (int): The id of the type of warranty plan .
+- `scopeOfWork` (string): The name of the scope covered by the Warranty .
+- `details` (string): Details about the scope.
+- `frequency` (int): Total number of times the concerned scope can be repaired under "Warranty.
+
+**Example Request:**
+
+```http
+GET /api/v1/warranty/warrantyScopes
+```
+
+**Example Response:**
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+{
+    "id": 1,
+    "warrantyId": 1,
+    "scopeOfWork": "Ignition Lock",
+    "details": "Change ignition(in total lifetime)",
+    "frequency": 2
+}
 ```
 <br>
 
