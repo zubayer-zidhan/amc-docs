@@ -67,7 +67,7 @@ Content-Type: application/json
 ```http
 HTTP/1.1 200 OK
 Content-Type: text/plain
-Added Successfully
+"Added Successfully"
 ```
 
 <br>
@@ -114,7 +114,7 @@ Content-Type: application/json
 ```http
 HTTP/1.1 200 OK
 Content-Type: text/plain
-Added Successfully
+"Added Successfully"
 ```
 <br>
 
