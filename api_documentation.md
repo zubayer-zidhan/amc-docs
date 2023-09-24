@@ -142,7 +142,6 @@ The request body for a POST request to add a new vehicle should be in JSON forma
 - `amc_end` (string, required): The amc end date of the vehicle.
 - `warranty_id` (int, required): The id of the warranty type availed by the vehicle.
 - `amc_id` (int, required): The id of the amc type availed by the vehicle.
-- 
 
 **Response:**
 - Status Code: 200 OK
