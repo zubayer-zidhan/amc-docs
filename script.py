@@ -28,7 +28,7 @@ The request body for a POST request to { title.lower() } should be in JSON forma
 
 **Response:**
 - Status Code: 200 OK
-- Response Body: JSON representation of the user.
+- Response Body: JSON.
 
 **Response Body:**
 The response body includes the following fields:
@@ -36,7 +36,7 @@ The response body includes the following fields:
 
 **Example Request:**\n
 ```http
-POST /api/v1/{ endpoint_url }
+{http_method} /api/v1/{ endpoint_url }
 Content-Type: application/json
 {{
     
@@ -52,6 +52,7 @@ Content-Type: application/json
 }}
 ```
 <br>
+
 """
 
     # Append the entry to the documentation file

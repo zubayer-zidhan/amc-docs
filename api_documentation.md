@@ -1,3 +1,12 @@
+- [Admin Controller](#admin-controller)
+  - [Add a new vehicle](#add-a-new-vehicle)
+  - [Add a new workshop](#add-a-new-workshop)
+- [AMC Availability Controller](#amc-availability-controller)
+  - [Check if a particular part/scope is covered by AMC](#check-if-a-particular-partscope-is-covered-by-amc)
+  - [Get the list of all scopes covered by AMC for the concerned vehicle](#get-the-list-of-all-scopes-covered-by-amc-for-the-concerned-vehicle)
+
+
+
 # Admin Controller
 ## Add a new vehicle
 
@@ -123,7 +132,7 @@ Added Successfully
 
 **Response:**
 - Status Code: 200 OK
-- Response Body: JSON representation of the user.
+- Response Body: JSON.
 
 **Response Body:**
 The response body includes the following fields:
@@ -144,5 +153,51 @@ Content-Type: application/json
     "available": 2,
     "total": 2
 }
+```
+<br>
+
+## Get the list of all scopes covered by AMC for the concerned vehicle
+
+**Endpoint URL:** `/api/v1/amc-availability/{chassisNum}`
+
+**HTTP Method:** GET
+
+**Description:** Get the list of all scopes covered by AMC for the concerned vehicle.
+
+**Request Parameters:**
+- `chassisNum` (path parameter): The chassis number of the concerned vehicle.
+
+**Response:**
+- Status Code: 200 OK
+- Response Body: List of JSON objects.
+
+**Response Body:**
+Each item of the response body includes the following fields:
+- `scopeOfWork` (string): The name of the scope covered by the AMC.
+- `details` (string): Details about the scope.
+- `frequency` (int): Total number of times the concerned scope can be repaired under AMC.
+
+**Example Request:**
+
+```http
+GET /api/v1/amc-availability/CHVH001
+```
+
+**Example Response:**
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+[
+    {
+        "scopeOfWork": "Head light",
+        "details": "Change headlight(in total lifetime)",
+        "frequency": 1
+    },
+    {
+        "scopeOfWork": "Handle Bar",
+        "details": "Change Handle Bar (in total lifetime)",
+        "frequency": 2
+    },
+]
 ```
 <br>
