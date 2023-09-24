@@ -4,6 +4,8 @@
 - [AMC Availability Controller](#amc-availability-controller)
   - [Check if a particular part/scope is covered by AMC](#check-if-a-particular-partscope-is-covered-by-amc)
   - [Get the list of all scopes covered by AMC for the concerned vehicle](#get-the-list-of-all-scopes-covered-by-amc-for-the-concerned-vehicle)
+- [Automovill Homes Controller](#automovill-homes-controller)
+  - [Get information about the autmovill offices in concerned state](#get-information-about-the-autmovill-offices-in-concerned-state)
 
 
 
@@ -203,3 +205,46 @@ Content-Type: application/json
 ]
 ```
 <br>
+
+# Automovill Homes Controller
+## Get information about the autmovill offices in concerned state
+
+**Endpoint URL:** `/api/v1/automovill-homes/{workshopId}`
+
+**HTTP Method:** GET
+
+**Description:** Get information about the autmovill offices in concerned state.
+
+**Request Parameters:**
+- `workshopId` (path parameter): The workshop id of the workshop in which the vehicle is taken to be serviced.
+
+
+**Response:**
+- Status Code: 200 OK
+- Response Body: JSON.
+
+**Response Body:**
+The response body includes the following fields:
+- `id` (string): The id of the state of the workshop.
+
+**Example Request:**
+
+```http
+GET /api/v1/automovill-homes/workshop03
+```
+
+**Example Response:**
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+{
+    "id": 3,
+    "state": "Madhya Pradesh",
+    "address": "187, Ground Floor, 18th Cross. 2nd Main, KPC Layout, Kasavanahalli, MP-35",
+    "gstin": "59VANCA9593J1ZQ",
+    "cin": "K741IOKA201SPTC083874",
+    "pan": "ALLCA9593J"
+}
+```
+<br>
+
