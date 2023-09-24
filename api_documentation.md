@@ -9,7 +9,6 @@
   - [Get all homes for all states](#get-all-homes-for-all-states)
 
 
-All the following api end-points need `authorization` in the request header with a Bearer token (jwt token, in this case)
 # Admin Controller
 These end-points can only be accessed using a jwt token for a user with admin priveleges.
 ## Add a new vehicle
