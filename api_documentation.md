@@ -36,7 +36,7 @@ The request body for a POST request to register new users should be in JSON form
 
 - `username` (string, required): The username of the workshop/users.
 - `password` (string, required): The password for the workshop/users.
-- `admin` (string, required): The role of the user.
+- `admin` (boolean, required): The role of the user is admin or not(true or false).
 
 **Response:**
 - Status Code: 200 OK
@@ -52,7 +52,7 @@ The response body includes the following fields:
 POST /api/v1/auth/register
 Content-Type: application/json
 {
-     "username": "workshop12",
+    "username": "workshop12",
     "password": "pass",
     "admin": false   
 }
