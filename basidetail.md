@@ -1,12 +1,12 @@
 # BasicDetailsService Controller
 
-## The BasicDetailsService allows clients to access basic vehicle details, including make, model, fuel type, and various other attributes. It provides flexibility to retrieve details for all vehicles or a specific vehicle based on its unique identifier..
+## Get Basic Details of all Vehicles
 
 **Endpoint URL:** `/api/v1//api/v1/basic/allDetails`
 
 **HTTP Method:** GET
 
-**Description:** This endpoint allows clients to retrieve a list of all basic vehicle details..
+**Description:** Get Basic Details of all Vehicles.
 
 **Request Parameters:**
 Request Parameters: None
@@ -14,11 +14,10 @@ Request Parameters: None
 **Response:**
 
 - Status Code: 200 OK
-- Response Body: JSON.
+- Response Body: List of JSON objects.
 
 **Response Body:**
-The response body includes the following fields:
-
+Each item of the response body includes the following fields:
 - id (string): The unique identifier of the vehicle.
 - make (string): The make or manufacturer of the vehicle.
 - model (string): The model of the vehicle.
@@ -46,7 +45,7 @@ The response body includes the following fields:
 - headlight (string): Information about the vehicle's headlight.
 - backlight (string): Information about the vehicle's backlight.
 - brakeLever (string): Information about the vehicle's brake lever.
-- batteryWarranty (string): Warranty information for the vehicle's battery..
+- batteryWarranty (string): Warranty information for the vehicle's battery.
 
 **Example Request:**
 
@@ -59,8 +58,7 @@ GET /api/v1//api/v1/basic/allDetails
 ```http
 HTTP/1.1 200 OK
 Content-Type: application/json
-{
-    [
+[
     {
         "id": "7e9dd8ae-40e9-11ee-831d-6045bdc60669",
         "make": "Fujiyama",
@@ -92,16 +90,15 @@ Content-Type: application/json
         "battery_warranty": "3 Years (Li-ion)"
     }
 ]
-}
 ```
 
-## The BasicDetailsService allows clients to access basic vehicle details, including make, model, fuel type, and various other attributes. It provides flexibility to retrieve details for all vehicles or a specific vehicle based on its unique identifier..
+## Get Basic Details of the concerned vehicle
 
 **Endpoint URL:** `/api/v1/basic/{id}`
 
 **HTTP Method:** GET
 
-**Description:** This endpoint allows clients to retrieve basic vehicle details for a specific vehicle based on its unique identifier (id).
+**Description:** Get Basic Details of the concerned vehicle.
 
 **Request Parameters:**
 
@@ -116,7 +113,6 @@ Content-Type: application/json
 
 **Response Body:**
 The response body includes the following fields:
-
 - id (string): The unique identifier of the vehicle.
 - make (string): The make or manufacturer of the vehicle.
 - model (string): The model of the vehicle.

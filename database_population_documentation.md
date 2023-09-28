@@ -10,6 +10,8 @@ This documentation explains how to populate various tables in the database using
   - [Excel Based Population](#excel-based-population)
     - [Parts Table](#parts-table)
     - [AMC Table](#amc-table)
+    - [Warranty Table](#warranty-table)
+  - [Basic Details Table](#basic-details-table)
 
 
 ## API-Based Population
@@ -252,3 +254,122 @@ connection.close()
 ```
 <br>
 
+### Warranty Table
+This table has the id's of the WTY types, and their names.
+
+To populate the "warranty" table follow the same steps as AMC, just replace "amc" with "warranty".
+<br>
+
+## Basic Details Table
+This table has all of the basic details for a vehicle of particular type. 
+
+To populate the "basic_details" table using a Python script from an Excel file, follow the following steps:
+
+1. Create an Excel file containing the data for the "basic_details" table.
+2. Write a Python script to read data from the Excel file and insert it into the "basic_details" table.
+3. Execute the python script to populate the "basic_details" table.
+
+**Table Desc**<br>
+The "basic_details" table has the following fields:
+- id (string): The unique identifier of the vehicle.
+- make (string): The make or manufacturer of the vehicle.
+- model (string): The model of the vehicle.
+- fuelType (string): The type of fuel the vehicle uses.
+- ratedPower (string): The rated power of the vehicle's engine.
+- peakPower (string): The peak power of the vehicle's engine.
+- seatHeight (string): The seat height of the vehicle.
+- loadingCapacity (string): The loading capacity of the vehicle.
+- speedometer (string): Information about the vehicle's speedometer.
+- batteryType (string): The type of battery used in the vehicle.
+- controller (string): Information about the vehicle's controller.
+- brakeSystem (string): Information about the vehicle's brake system.
+- dimensions (string): The dimensions of the vehicle.
+- tyre (string): Information about the vehicle's tires.
+- chargingTime (string): The charging time for the vehicle's battery.
+- chargerSpecs (string): Specifications of the vehicle's charger.
+- voltage (string): The voltage used by the vehicle.
+- suspension (string): Information about the vehicle's suspension.
+- mileage (string): The mileage of the vehicle.
+- groundClearance (string): The ground clearance of the vehicle.
+- icat (string): Information about the vehicle's ICAT compliance.
+- floorMat (string): Information about the vehicle's floor mat.
+- topSpeed (string): The top speed of the vehicle.
+- wheel (string): Information about the vehicle's wheel.
+- headlight (string): Information about the vehicle's headlight.
+- backlight (string): Information about the vehicle's backlight.
+- brakeLever (string): Information about the vehicle's brake lever.
+- batteryWarranty (string): Warranty information for the vehicle's battery.
+
+The following script can be used after making a few changes(like, csv file name, dbconfig): 
+```python
+import pandas as pd
+import mysql.connector
+
+# MySQL database connection settings
+# The username and password of a db user with CRUD priveleges
+db_config = {
+    "host": "localhost",
+    "user": "username",  
+    "password": "password",
+    "database": "dbName",
+}
+
+# Excel file path
+excel_file = "basic_details.xlsx"
+
+# Sheet name, the name of the sheet to look for in the excel workbook
+sheet_name = "Sheet1"
+
+
+# Connect to the MySQL database
+try:
+    connection = mysql.connector.connect(**db_config)
+    cursor = connection.cursor()
+except mysql.connector.Error as err:
+    print("Error connecting to MySQL:", err)
+    exit()
+
+
+
+# Read Excel file using pandas
+try:
+    df = pd.read_excel(excel_file, sheet_name=sheet_name)
+
+    # The name of the headings in the excel file(change based on excel file, order is important)
+    df = df[["", "", ""]]
+
+    # Fill all null values with ""
+    df = df.fillna("")
+    
+except Exception as e:
+    print("Error reading Excel:", e)
+    cursor.close()
+    connection.close()
+    exit()
+
+# Convert the Excel data to a list of dictionaries
+data_to_insert = df.to_dict(orient="records")
+# print(data_to_insert)
+
+
+# Insert data into the MySQL database
+try:
+    for row in data_to_insert:
+        query = "INSERT INTO basic_details("", "") VALUES (%s, %s, %s)"
+        values = tuple(row.values())
+        # print(values)
+        cursor.execute(query, values)
+    connection.commit()
+    print("Data inserted successfully.")
+except mysql.connector.Error as err:
+    print("Error inserting data into MySQL:", err)
+    connection.rollback()
+
+
+
+
+# Close the cursor and connection
+cursor.close()
+connection.close()
+```
+<br>
