@@ -1,4 +1,4 @@
-# BasicDetailsService Controller
+# Basic Details Controller
 
 ## Get Basic Details of all Vehicles
 

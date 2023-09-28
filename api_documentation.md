@@ -4,12 +4,19 @@
 - [Admin Controller](#admin-controller)
   - [Add a new vehicle](#add-a-new-vehicle)
   - [Add a new workshop](#add-a-new-workshop)
+- [AMC Controller](#amc-controller)
+  - [Get list of all available types of AMCs.](#get-list-of-all-available-types-of-amcs)
+- [AMC Scopes Controller](#amc-scopes-controller)
+  - [Get Access to the AMC scopes table.](#get-access-to-the-amc-scopes-table)
 - [AMC Availability Controller](#amc-availability-controller)
   - [Check if a particular part/scope is covered by AMC](#check-if-a-particular-partscope-is-covered-by-amc)
   - [Get the list of all scopes covered by AMC for the concerned vehicle](#get-the-list-of-all-scopes-covered-by-amc-for-the-concerned-vehicle)
 - [Automovill Homes Controller](#automovill-homes-controller)
   - [Get information about the automovill offices in concerned state](#get-information-about-the-automovill-offices-in-concerned-state)
   - [Get all homes for all states](#get-all-homes-for-all-states)
+- [Basic Details Controller](#basic-details-controller)
+  - [Get Basic Details of all Vehicles](#get-basic-details-of-all-vehicles)
+  - [Get Basic Details of the concerned vehicle](#get-basic-details-of-the-concerned-vehicle)
 - [Warranty Availability Controller](#warranty-availability-controller)
   - [Check if a particular part/scope is covered by Warranty](#check-if-a-particular-partscope-is-covered-by-warranty)
   - [Get the list of all scopes covered by Warranty for the concerned vehicle](#get-the-list-of-all-scopes-covered-by-warranty-for-the-concerned-vehicle)
@@ -228,6 +235,119 @@ Content-Type: text/plain
 <br>
 
 All the remaining end-points can be accessed using a jwt token with user level or above priveleges
+
+# AMC Controller 
+
+## Get list of all available types of AMCs.
+
+**Endpoint URL:** `/api/v1/api/v1/amc/details`
+
+**HTTP Method:** GET
+
+**Description:** Get list of all available types of AMCs.
+
+**Request Parameters:**
+
+- Request Parameters: None .
+
+**Response:**
+
+- Status Code: 200 OK
+- Response Body: List of JSON objects.
+
+**Response Body:**
+Each item of the response body includes the following fields:
+- id (integer): The unique identifier for the AMC contract.
+- name (string): The name or title of the AMC contract.
+- type (string): The type or category of the AMC contract.
+
+**Example Request:**
+
+```http
+GET /api/v1//api/v1/amc/details
+```
+
+**Example Response:**
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+[
+    {
+        "id": 1,
+        "name": "amc1",
+        "type": "basic"
+    },
+    {
+        "id": 2,
+        "name": "amc2",
+        "type": "deluxe"
+    },
+]
+```
+
+<br>
+
+# AMC Scopes Controller
+
+## Get Access to the AMC scopes table.
+
+**Endpoint URL:** `/api/v1/amc/amcScopes`
+
+**HTTP Method:** GET
+
+**Description:** Get Access to the AMC scopes table, which contains the blueprint for amc_availability table.
+
+**Response:**
+- Status Code: 200 OK
+- Response Body: List of JSON objects.
+
+**Response Body:**
+Each item in the response body includes the following fields:
+- id (integer): The unique identifier for the AMC scope.
+- amcId (integer): The identifier of the associated Annual Maintenance Contract.
+- scopeOfWork (string): A description of the scope of work.
+- details (string): Additional details about the scope of work.
+- frequency (integer): The frequency at which the scope of work is performed.
+
+**Example Request:**
+
+```http
+GET /api/v1//api/v1/amc/details
+```
+
+**Example Response:**
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+[
+    {
+        "id": 10,
+        "amcId": 1,
+        "scopeOfWork": "Head light",
+        "details": "Change headlight(in total lifetime)",
+        "frequency": 1
+    },
+    {
+        "id": 11,
+        "amcId": 1,
+        "scopeOfWork": "Handle Bar",
+        "details": "Change Handle Bar (in total lifetime)",
+        "frequency": 2
+    },
+    {
+        "id": 12,
+        "amcId": 1,
+        "scopeOfWork": "Wire Harness",
+        "details": "Change (in total lifetime)",
+        "frequency": 3
+    }
+]
+```
+
+<br>
+
 # AMC Availability Controller
 ## Check if a particular part/scope is covered by AMC
 
@@ -412,6 +532,196 @@ Content-Type: application/json
     },
 ]
 ```
+<br>
+
+# Basic Details Controller
+
+## Get Basic Details of all Vehicles
+
+**Endpoint URL:** `/api/v1/api/v1/basic/allDetails`
+
+**HTTP Method:** GET
+
+**Description:** Get Basic Details of all Vehicles.
+
+**Request Parameters:**
+Request Parameters: None
+
+**Response:**
+
+- Status Code: 200 OK
+- Response Body: List of JSON objects.
+
+**Response Body:**
+Each item of the response body includes the following fields:
+- id (string): The unique identifier of the vehicle.
+- make (string): The make or manufacturer of the vehicle.
+- model (string): The model of the vehicle.
+- fuelType (string): The type of fuel the vehicle uses.
+- ratedPower (string): The rated power of the vehicle's engine.
+- peakPower (string): The peak power of the vehicle's engine.
+- seatHeight (string): The seat height of the vehicle.
+- loadingCapacity (string): The loading capacity of the vehicle.
+- speedometer (string): Information about the vehicle's speedometer.
+- batteryType (string): The type of battery used in the vehicle.
+- controller (string): Information about the vehicle's controller.
+- brakeSystem (string): Information about the vehicle's brake system.
+- dimensions (string): The dimensions of the vehicle.
+- tyre (string): Information about the vehicle's tires.
+- chargingTime (string): The charging time for the vehicle's battery.
+- chargerSpecs (string): Specifications of the vehicle's charger.
+- voltage (string): The voltage used by the vehicle.
+- suspension (string): Information about the vehicle's suspension.
+- mileage (string): The mileage of the vehicle.
+- groundClearance (string): The ground clearance of the vehicle.
+- icat (string): Information about the vehicle's ICAT compliance.
+- floorMat (string): Information about the vehicle's floor mat.
+- topSpeed (string): The top speed of the vehicle.
+- wheel (string): Information about the vehicle's wheel.
+- headlight (string): Information about the vehicle's headlight.
+- backlight (string): Information about the vehicle's backlight.
+- brakeLever (string): Information about the vehicle's brake lever.
+- batteryWarranty (string): Warranty information for the vehicle's battery.
+
+**Example Request:**
+
+```http
+GET /api/v1/api/v1/basic/allDetails
+```
+
+**Example Response:**
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+[
+    {
+        "id": "7e9dd8ae-40e9-11ee-831d-6045bdc60669",
+        "make": "Fujiyama",
+        "model": "Spectra",
+        "fuelType": "Electric(156 KWH)",
+        "rated_power": "250 Watt,BLDC Motor",
+        "peak_power": "3700 Watt",
+        "seat_height": "740 mm",
+        "loading_capacity": "150 kg",
+        "speedometer": "LCD",
+        "battery_type": "1.56 KWH (Li-ion)(Detachable Battery)",
+        "controller": "E-ABS",
+        "brake_system": "Drum Brakes(Both)",
+        "dimensions": "L-1730mm | W-690mm | H-1280mm",
+        "tyre": "3.0 - 10 Tubeless(Both)",
+        "charging_time": "4 -5 hrs",
+        "charger_specs": "Micro-charger with Auto Cut",
+        "voltage": "48V / 60V",
+        "suspension": "Front:Hydraulic Telescopic,Rear:Double Shocker with Dual Tube Technology",
+        "mileage": "80-90 km/charge",
+        "ground_clearance": "160 mm",
+        "icat": "Yes",
+        "floor_mat": "Design Hard Mat",
+        "top_speed": "25 kmph",
+        "wheel": "Aluminium Alloy",
+        "headlight": "LED with DRL",
+        "backlight": "LED Winkers",
+        "brake_lever": "Aluminium Alloy",
+        "battery_warranty": "3 Years (Li-ion)"
+    }
+]
+```
+
+## Get Basic Details of the concerned vehicle
+
+**Endpoint URL:** `/api/v1/basic/{id}`
+
+**HTTP Method:** GET
+
+**Description:** Get Basic Details of the concerned vehicle.
+
+**Request Parameters:**
+
+- id (string): The unique identifier of the vehicle
+
+**Response:**
+
+- Status Code: 200 OK
+- Response Body: JSON.
+
+**Request Body :** - None
+
+**Response Body:**
+The response body includes the following fields:
+- id (string): The unique identifier of the vehicle.
+- make (string): The make or manufacturer of the vehicle.
+- model (string): The model of the vehicle.
+- fuelType (string): The type of fuel the vehicle uses.
+- ratedPower (string): The rated power of the vehicle's engine.
+- peakPower (string): The peak power of the vehicle's engine.
+- seatHeight (string): The seat height of the vehicle.
+- loadingCapacity (string): The loading capacity of the vehicle.
+- speedometer (string): Information about the vehicle's speedometer.
+- batteryType (string): The type of battery used in the vehicle.
+- controller (string): Information about the vehicle's controller.
+- brakeSystem (string): Information about the vehicle's brake system.
+- dimensions (string): The dimensions of the vehicle.
+- tyre (string): Information about the vehicle's tires.
+- chargingTime (string): The charging time for the vehicle's battery.
+- chargerSpecs (string): Specifications of the vehicle's charger.
+- voltage (string): The voltage used by the vehicle.
+- suspension (string): Information about the vehicle's suspension.
+- mileage (string): The mileage of the vehicle.
+- groundClearance (string): The ground clearance of the vehicle.
+- icat (string): Information about the vehicle's ICAT compliance.
+- floorMat (string): Information about the vehicle's floor mat.
+- topSpeed (string): The top speed of the vehicle.
+- wheel (string): Information about the vehicle's wheel.
+- headlight (string): Information about the vehicle's headlight.
+- backlight (string): Information about the vehicle's backlight.
+- brakeLever (string): Information about the vehicle's brake lever.
+- batteryWarranty (string): Warranty information for the vehicle's battery..
+
+**Example Request:**
+
+```http
+GET api/v1/basic/7e9dd8ae-40e9-11ee-831d-6045bdc60669
+```
+
+**Example Response:**
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+{
+    "id": "7e9dd8ae-40e9-11ee-831d-6045bdc60669",
+    "make": "Fujiyama",
+    "model": "Spectra",
+    "fuelType": "Electric(156 KWH)",
+    "rated_power": "250 Watt,BLDC Motor",
+    "peak_power": "3700 Watt",
+    "seat_height": "740 mm",
+    "loading_capacity": "150 kg",
+    "speedometer": "LCD",
+    "battery_type": "1.56 KWH (Li-ion)(Detachable Battery)",
+    "controller": "E-ABS",
+    "brake_system": "Drum Brakes(Both)",
+    "dimensions": "L-1730mm | W-690mm | H-1280mm",
+    "tyre": "3.0 - 10 Tubeless(Both)",
+    "charging_time": "4 -5 hrs",
+    "charger_specs": "Micro-charger with Auto Cut",
+    "voltage": "48V / 60V",
+    "suspension": "Front:Hydraulic Telescopic,Rear:Double Shocker with Dual Tube Technology",
+    "mileage": "80-90 km/charge",
+    "ground_clearance": "160 mm",
+    "icat": "Yes",
+    "floor_mat": "Design Hard Mat",
+    "top_speed": "25 kmph",
+    "wheel": "Aluminium Alloy",
+    "headlight": "LED with DRL",
+    "backlight": "LED Winkers",
+    "brake_lever": "Aluminium Alloy",
+    "battery_warranty": "3 Years (Li-ion)"
+
+}
+```
+
 <br>
 
 # Warranty Availability Controller
