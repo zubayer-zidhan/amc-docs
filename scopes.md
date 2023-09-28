@@ -21,7 +21,6 @@ GET /api/v1//api/v1/amc/details
 
 **Response Body:**
 The response body includes the following fields:
-
 - id (integer): The unique identifier for the AMC scope.
 - amcId (integer): The identifier of the associated Annual Maintenance Contract.
 - scopeOfWork (string): A description of the scope of work.

@@ -11,7 +11,10 @@ This documentation explains how to populate various tables in the database using
     - [Parts Table](#parts-table)
     - [AMC Table](#amc-table)
     - [Warranty Table](#warranty-table)
-  - [Basic Details Table](#basic-details-table)
+    - [Basic Details Table](#basic-details-table)
+    - [AMC Scopes Table](#amc-scopes-table)
+    - [Warranty Table](#warranty-table-1)
+    - [Automovill Homes Table](#automovill-homes-table)
 
 
 ## API-Based Population
@@ -260,7 +263,7 @@ This table has the id's of the WTY types, and their names.
 To populate the "warranty" table follow the same steps as AMC, just replace "amc" with "warranty".
 <br>
 
-## Basic Details Table
+### Basic Details Table
 This table has all of the basic details for a vehicle of particular type. 
 
 To populate the "basic_details" table using a Python script from an Excel file, follow the following steps:
@@ -356,6 +359,194 @@ data_to_insert = df.to_dict(orient="records")
 try:
     for row in data_to_insert:
         query = "INSERT INTO basic_details("", "") VALUES (%s, %s, %s)"
+        values = tuple(row.values())
+        # print(values)
+        cursor.execute(query, values)
+    connection.commit()
+    print("Data inserted successfully.")
+except mysql.connector.Error as err:
+    print("Error inserting data into MySQL:", err)
+    connection.rollback()
+
+
+
+
+# Close the cursor and connection
+cursor.close()
+connection.close()
+```
+<br>
+
+### AMC Scopes Table
+This table has the list of scopes for each amc type(id), and works as the blueprint for creating the "amc-availability" table.
+
+To populate the "amc_scopes" table using a Python script from an Excel file, follow the following steps:
+
+1. Create an Excel file containing the data for the "amc_scopes" table.
+2. Write a Python script to read data from the Excel file and insert it into the "amc_scopes" table.
+3. Execute the python script to populate the "amc_scopes" table.
+
+**Table Desc**<br>
+The "amc_scopes" table has the following fields:
+- id (integer): The unique identifier for the AMC scope.
+- amcId (integer): The identifier of the associated Annual Maintenance Contract.
+- scopeOfWork (string): A description of the scope of work.
+- details (string): Additional details about the scope of work.
+- frequency (integer): The frequency at which the scope of work is performed.
+
+The following script can be used after making a few changes(like, csv file name, dbconfig): 
+```python
+import pandas as pd
+import mysql.connector
+
+# MySQL database connection settings
+# The username and password of a db user with CRUD priveleges
+db_config = {
+    "host": "localhost",
+    "user": "username",  
+    "password": "password",
+    "database": "dbName",
+}
+
+# Excel file path
+excel_file = "amc_scopes.xlsx"
+
+# Sheet name, the name of the sheet to look for in the excel workbook
+sheet_name = "Sheet1"
+
+
+# Connect to the MySQL database
+try:
+    connection = mysql.connector.connect(**db_config)
+    cursor = connection.cursor()
+except mysql.connector.Error as err:
+    print("Error connecting to MySQL:", err)
+    exit()
+
+
+
+# Read Excel file using pandas
+try:
+    df = pd.read_excel(excel_file, sheet_name=sheet_name)
+
+    # The name of the headings in the excel file(change based on excel file, order is important)
+    df = df[["", "", ""]]
+
+    # Fill all null values with ""
+    df = df.fillna("")
+    
+except Exception as e:
+    print("Error reading Excel:", e)
+    cursor.close()
+    connection.close()
+    exit()
+
+# Convert the Excel data to a list of dictionaries
+data_to_insert = df.to_dict(orient="records")
+# print(data_to_insert)
+
+
+# Insert data into the MySQL database
+try:
+    for row in data_to_insert:
+        query = "INSERT INTO amc_scopes(id, amc_id, scope_of_work, details, frequency) VALUES (%s, %s, %s, %s, %s)"
+        values = tuple(row.values())
+        # print(values)
+        cursor.execute(query, values)
+    connection.commit()
+    print("Data inserted successfully.")
+except mysql.connector.Error as err:
+    print("Error inserting data into MySQL:", err)
+    connection.rollback()
+
+
+
+
+# Close the cursor and connection
+cursor.close()
+connection.close()
+```
+<br>
+
+### Warranty Table
+This table has the list of scopes for each warranty type(id), and works as the blueprint for creating the "warranty-availability" table.
+
+To populate the "warranty_scopes" table follow the same steps as amc_scopes, just replace "amc_scopes" with "warranty_scopes".
+<br>
+
+### Automovill Homes Table
+This table has the information about all the automovill offices in different states.
+
+To populate the "automovill_homes" table using a Python script from an Excel file, follow the following steps:
+
+1. Create an Excel file containing the data for the "automovill_homes" table.
+2. Write a Python script to read data from the Excel file and insert it into the "automovill_homes" table.
+3. Execute the python script to populate the "automovill_homes" table.
+
+**Table Desc**<br>
+The "automovill_homes" table has the following fields:
+- `id` (string): The id of the entry in the table.
+- `state` (string): The state to which the workshop belongs.
+- `gstin` (string): The gst number for the office in that state.
+- `cin` (string): The cin for the office in that state.
+- `pan` (string): The pan for the office in that state.
+
+The following script can be used after making a few changes(like, csv file name, dbconfig): 
+```python
+import pandas as pd
+import mysql.connector
+
+# MySQL database connection settings
+# The username and password of a db user with CRUD priveleges
+db_config = {
+    "host": "localhost",
+    "user": "username",  
+    "password": "password",
+    "database": "dbName",
+}
+
+# Excel file path
+excel_file = "automovill_homes.xlsx"
+
+# Sheet name, the name of the sheet to look for in the excel workbook
+sheet_name = "Sheet1"
+
+
+# Connect to the MySQL database
+try:
+    connection = mysql.connector.connect(**db_config)
+    cursor = connection.cursor()
+except mysql.connector.Error as err:
+    print("Error connecting to MySQL:", err)
+    exit()
+
+
+
+# Read Excel file using pandas
+try:
+    df = pd.read_excel(excel_file, sheet_name=sheet_name)
+
+    # The name of the headings in the excel file(change based on excel file, order is important)
+    df = df[["", "", ""]]
+
+    # Fill all null values with ""
+    df = df.fillna("")
+    
+except Exception as e:
+    print("Error reading Excel:", e)
+    cursor.close()
+    connection.close()
+    exit()
+
+# Convert the Excel data to a list of dictionaries
+data_to_insert = df.to_dict(orient="records")
+# print(data_to_insert)
+
+
+# Insert data into the MySQL database
+try:
+    for row in data_to_insert:
+        query = "INSERT INTO automovill_homes(state, address, gstin, cin, pan) VALUES (%s, %s, %s)"
         values = tuple(row.values())
         # print(values)
         cursor.execute(query, values)
