@@ -1,10 +1,6 @@
 #  Invoices Controller
-  
-  
-  
 ##  Add new Invoices into the Database.
-  
-  
+    
 **Endpoint URL:** `/api/v1/invoices/addNew`
   
 **HTTP Method:** POST
@@ -14,7 +10,6 @@
 **Request Parameters:**
 - Request Body
   
-  
 **Request Body:**
 The request body for a POST request to add new invoices into the database. Should be in JSON format and include the following fields:
   
@@ -23,7 +18,7 @@ The request body for a POST request to add new invoices into the database. Shoul
 - `date_of_booking` (string): The date on which the vehicle is serviced.
 - `last_service_date` (string): The date on which the vehicle was last serviced.
 - `last_service_km` (int): The distance covered by the vehicle till the last servicing.
-- `services` (list {JSON}): 
+- `services` (JSON): 
         - `name`(string): Service done on the vehicle. 
         - `price`(int): Price for the particular service.
         - `type`(string): If the service is covered under AMC or Warranty. If not covered either then the value returned is "N/A".
@@ -37,7 +32,7 @@ The request body for a POST request to add new invoices into the database. Shoul
   
 **Response Body:**
 The response body includes the following fields:
-- `invoice_id` : The invoice ID generated for each new invoice generated and added to the Database.
+- `invoice_id` : The invoice ID generated for the invoice that is generated and added to the Database based on the request.
   
 **Example Request:**
   
@@ -78,7 +73,6 @@ Content-Type: application/json
   
 ##  Get all the invoices that have been generated.
   
-  
 **Endpoint URL:** `/api/v1/invoices/allinvoices`
   
 **HTTP Method:** GET
@@ -92,8 +86,6 @@ Content-Type: application/json
 **Response:**
 - Status Code: 200 OK
 - Response Body: List of JSON objects.
-  
-  
   
 **Response Body:**
 The response body includes the following fields:
@@ -109,7 +101,6 @@ The response body includes the following fields:
 - `distance_Travelled`(int) : Distance covered by the vehicle till the date of service.
   
 **Example Request:**
-  
 ```http
 GET /api/v1/invoices/allinvoices
 Content-Type: application/json
@@ -160,10 +151,8 @@ Content-Type: application/json
 ```
 <br>
   
-  
 ##  Get the generated invoice for a particular vehicle.
-  
-  
+    
 **Endpoint URL:** `/api/v1/invoices/{chassisNum}`
   
 **HTTP Method:** GET
@@ -173,16 +162,13 @@ Content-Type: application/json
 **Request Parameters:**
 - `chassisNum`  (path parameter): The chassis number of the concerned vehicle.
   
-  
-  
 **Response:**
 - Status Code: 200 OK
 - Response Body: List of JSON objects.
   
 **Response Body:**
 The response body includes the following fields:
-  
-- `bill_number`(string) : The bill number generated for the particular invoice. 
+  - `bill_number`(string) : The bill number generated for the particular invoice. 
 - `date_of_booking`(string) : The date on which the vehicle is serviced.
 - `services` (list {JSON}): 
         - `name`(string): Service done on the vehicle. 
@@ -193,7 +179,6 @@ The response body includes the following fields:
 - `distance_Travelled`(int) : Distance covered by the vehicle till the date of service.
   
 **Example Request:**
-  
 ```http
 GET /api/v1/invoices/CHVH007
 Content-Type: application/json
@@ -238,12 +223,8 @@ Content-Type: application/json
 ```
 <br>
   
-  
-  
 #  Vehicle Details Controller
-  
 ##  Get the details of a particular vehicle.
-  
   
 **Endpoint URL:** `/api/v1/vehicle/{chassisNum}`
   
@@ -253,7 +234,6 @@ Content-Type: application/json
   
 **Request Parameters:**
 - `chassisNum`  (path parameter): The chassis number of the concerned vehicle.
-  
   
 **Response:**
 - Status Code: 200 OK
@@ -277,10 +257,7 @@ The response body includes the following fields:
 - `fuel_type` (string): The fuel type used. 
 - `amc_type` (string): Type of AMC. 
   
-  
-  
 **Example Request:**
-  
 ```http
 GET /api/v1/vehicle/CHVH001
 Content-Type: application/json
@@ -311,9 +288,7 @@ Content-Type: application/json
 <br>
   
 #  Parts Details Controller Controller
-  
 ##  Get the details of all the services available.
-  
   
 **Endpoint URL:** `/api/v1/parts/allParts`
   
