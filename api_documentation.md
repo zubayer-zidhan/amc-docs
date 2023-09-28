@@ -31,10 +31,10 @@
 - [WarrantyScopes Controller](#warrantyscopes-controller)
   - [Get the list of all scopes covered under "Warranty".](#get-the-list-of-all-scopes-covered-under-warranty)
 
-
+For using all of the API end-points except (login), JSON Web Token(JWT) is required for authorization.
 
 # Authentication Controller
-The auth api end-points are open for all. No JWT tokens required.
+This auth api end-points is accessible only by admin level users.
 ## Register new users
 
 **Endpoint URL:** `/api/v1/auth/register`
@@ -84,6 +84,7 @@ Content-Type: application/json
 <br>
 
 ## Authenticate the existing users
+This auth api end-points is open for all. No JWT tokens required.
 
 **Endpoint URL:** `/api/v1/auth/authenticate`
 
