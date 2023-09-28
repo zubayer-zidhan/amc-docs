@@ -1,44 +1,46 @@
 # Import the necessary libraries
 import os
 
-
 # Function to create an API documentation entry
-def create_doc_entry():
-    table = input("Enter name of table: ")
+def create_api_entry():
+    tableName = input("Table Name: " )
     
     # Generate the Markdown entry
-    # Excel Based
-    excel_based = f"""### { table.capitalize() } Table
-To populate the "{ table }" table using a Python script from an Excel file, follow the following steps:
+    content = f"""### {tableName.capitalize()} Table
+To populate the {tableName} table using a Python script from an Excel file, follow the following steps:
 
-1. Create an Excel file containing the data for the "{table}" table.
-2. Write a Python script to read data from the Excel file and insert it into the "{table}" table.
-3. Execute the python script to populate the "{table}" table.
+1. Create an Excel file containing the data for the {tableName} table.
+
+2. Write a Python script to read data from the Excel file and insert it into the "{tableName}" table.
+
+3. Execute the Python script to populate the {tableName} table.
 
 **Table Desc**
-The "{table}" table has the following fields:
+
+The {tableName} table has the following fields:
+
 - `` (string, required): The .
 
-The following script can be used after making a few changes(like, csv file name, dbconfig): 
+The following script can be used after making a few changes(like, csv file name, dbconfig):
+
 ```python
 import pandas as pd
 import mysql.connector
 
 # MySQL database connection settings
-# The username and password of a db user with CRUD priveleges
+# The username and password of a db user with CRUD privileges
 db_config = {
     "host": "localhost",
-    "user": "username",  
+    "user": "username",
     "password": "password",
     "database": "dbName",
 }
 
 # Excel file path
-excel_file = "{table}.xlsx"
+excel_file = "{tableName}.xlsx"
 
 # Sheet name, the name of the sheet to look for in the excel workbook
 sheet_name = "Sheet1"
-
 
 # Connect to the MySQL database
 try:
@@ -47,8 +49,6 @@ try:
 except mysql.connector.Error as err:
     print("Error connecting to MySQL:", err)
     exit()
-
-
 
 # Read Excel file using pandas
 try:
@@ -59,7 +59,6 @@ try:
 
     # Fill all null values with ""
     df = df.fillna("")
-    
 except Exception as e:
     print("Error reading Excel:", e)
     cursor.close()
@@ -68,15 +67,12 @@ except Exception as e:
 
 # Convert the Excel data to a list of dictionaries
 data_to_insert = df.to_dict(orient="records")
-# print(data_to_insert)
-
 
 # Insert data into the MySQL database
 try:
     for row in data_to_insert:
         query = "INSERT INTO parts(a, b) VALUES (%s, %s)"
         values = tuple(row.values())
-        # print(values)
         cursor.execute(query, values)
     connection.commit()
     print("Data inserted successfully.")
@@ -84,23 +80,19 @@ except mysql.connector.Error as err:
     print("Error inserting data into MySQL:", err)
     connection.rollback()
 
-
-
-
 # Close the cursor and connection
 cursor.close()
 connection.close()
 ```
 <br>
-
 """
 
     # Append the entry to the documentation file
-    with open("database_population_documentation.md", "a") as file:
+    with open("test.md", "a") as file:
         file.write(markdown_entry)
 
 # Main script
 if __name__ == "__main__":
-    create_doc_entry()
+    create_api_entry()
 
-print("Table Population Documentation created successfully.")
+print("API documentation created successfully.")
