@@ -215,6 +215,8 @@ To populate the "parts" table using a Python script from an Excel file, follow t
 1. Create an Excel file containing the data for the "parts" table.
 2. Write a Python script to read data from the Excel file and insert it into the "parts" table.
 3. Execute the python script to populate the "parts" table.
+4. Install required libraries
+   - sample code: `pip install pandas mysql-connector-python`
 
 **Table Desc**<br>
 The "parts" table has the following fields:
