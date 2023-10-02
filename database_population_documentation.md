@@ -7,13 +7,16 @@ This documentation explains how to populate various tables in the database using
 - [Database Population Documentation](#database-population-documentation)
   - [API-Based Population](#api-based-population)
     - [Users Table](#users-table)
+    - [Add New Vehicle (vehicle\_details, amc\_availability, warranty\_availability Tables)](#add-new-vehicle-vehicle_details-amc_availability-warranty_availability-tables)
+    - [Add New Workshop (workshops table)](#add-new-workshop-workshops-table)
+    - [Invoices table](#invoices-table)
   - [Excel Based Population](#excel-based-population)
     - [Parts Table](#parts-table)
     - [AMC Table](#amc-table)
     - [Warranty Table](#warranty-table)
     - [Basic Details Table](#basic-details-table)
     - [AMC Scopes Table](#amc-scopes-table)
-    - [Warranty Table](#warranty-table-1)
+    - [Warranty Scopes Table](#warranty-scopes-table)
     - [Automovill Homes Table](#automovill-homes-table)
 
 
@@ -73,6 +76,134 @@ Content-Type: application/json
 ```
 <br>
 
+### Add New Vehicle (vehicle_details, amc_availability, warranty_availability Tables)
+To add a new vehicle to the database via the API, follow the following steps:
+1. An admin user JWT is required in order create other account, use that token for authorization.
+2. Send a POST request to the API endpoint.
+3. Send a request body with the required fields.
+4. A "string" will be returned, "SUCCESS" or "FAILURE".
+
+**Endpoint URL:** `/api/v1/admin/addNewVehicle`
+
+**HTTP Method:** POST
+
+**Description:** Add new vehicle.
+
+**Request Parameters:**
+- Request Body
+
+**Request Body:**
+The request body for a POST request to add a new vehicle should be in JSON format and include the following fields:
+- `chassis_num` (string, required): The chassis number of the vehicle to be added.
+- `make` (string, required): The make of the vehicle to be added.
+- `model` (string, required): The model of the vehicle to be added.
+- `fuel_type` (string, required): The fuel type of the vehicle to be added.
+- `phone_number` (string, required): The phone number of the owner.
+- `reg_date` (string, required): The date of registration of the vehicle.
+- `warranty_start` (string, required): The warranty start date of the vehicle.
+- `warranty_end` (string, required): The warranty end date of the vehicle.
+- `amc_start` (string, required): The amc start date of the vehicle.
+- `amc_end` (string, required): The amc end date of the vehicle.
+- `warranty_id` (int, required): The id of the warranty type availed by the vehicle. This is used to populate the warranty_availability table.
+- `amc_id` (int, required): The id of the amc type availed by the vehicle. This is used to populate the amc_availability table.
+
+**Response:**
+- Status Code: 200 OK
+- Response Body: String.
+
+**Response Body:**
+The response body includes the following fields:
+- `token` (string): A JSON Web Token(JWT) that can be used to verify a user's identity in future API calls.
+
+**Example Request:**
+
+```http
+POST /api/v1/auth/register
+Content-Type: application/json
+{
+    "chassis_num": "CHVH015",
+    "make": "Fujiyama",
+    "model": "Spectra",
+    "fuel_type": "Electric(156 KWH)",
+    "phone_number": "2856423224",
+    "owner": "Fujiyama",
+    "reg_date": "2023-02-16",
+    "warranty_start": "2023-02-16",
+    "warranty_end": "2025-02-16",
+    "amc_start_date": "2023-02-16",
+    "amc_end_date": "2024-02-16",
+    "amc_id": 1,
+    "warranty_id": 1
+}
+```
+
+**Example Response:**
+```http
+HTTP/1.1 200 OK
+Content-Type: text/plain
+"Added Successfully"
+```
+<br>
+
+### Add New Workshop (workshops table)
+To add a new workshop to the database via the API, follow the following steps:
+1. An admin user JWT is required in order create other account, use that token for authorization.
+2. The workshop to be added must already be added as an user, if not already added, refer how to add to [user_table](#users-table) 
+3. Send a POST request to the API endpoint.
+4. Send a request body with the required fields.
+5. A "string" will be returned, "SUCCESS" or "FAILURE".
+
+**Endpoint URL:** `/api/v1/admin/addNewWorkshop`
+
+**HTTP Method:** POST
+
+**Description:** Add new workshop.
+
+**Request Parameters:**
+- Request Body
+
+**Request Body:**
+The request body for a POST request to add a new workshop should be in JSON format and include the following fields:
+- `state` (string, required): The name of the state to which the workshop belongs.
+- `name` (string, required): The username of the workshop to be added.
+- `address` (string, required): The address of the workshop to be added.
+- `pin` (string, required): The pin code of the workshop to be added.
+- `contact` (string, required): The contact number of the workshop to be added.
+
+**Response:**
+- Status Code: 200 OK
+- Response Body: String.
+
+**Response Body:**
+The response body includes the following fields:
+- `token` (string): A JSON Web Token(JWT) that can be used to verify a user's identity in future API calls.
+
+**Example Request:**
+
+```http
+POST /api/v1/auth/register
+Content-Type: application/json
+{
+    "name": "workshop18",
+    "state": "Assam",
+    "address": "Address-9",
+    "pin": "98628",
+    "contact": "127832417"
+}
+```
+
+**Example Response:**
+```http
+HTTP/1.1 200 OK
+Content-Type: text/plain
+"Added Successfully"
+```
+<br>
+
+### Invoices table
+- To add a new invoice to the invoice table, an API call is made from the amc_app.
+- It is filled gradually with the creation of invoices, and as amc and warranty are availed, or, servicing is done.
+- Not required to fill this table while initial population of database
 
 ## Excel Based Population
 
@@ -468,7 +599,7 @@ connection.close()
 ```
 <br>
 
-### Warranty Table
+### Warranty Scopes Table
 This table has the list of scopes for each warranty type(id), and works as the blueprint for creating the "warranty-availability" table.
 
 To populate the "warranty_scopes" table follow the same steps as amc_scopes, just replace "amc_scopes" with "warranty_scopes".
