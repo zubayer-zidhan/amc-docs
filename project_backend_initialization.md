@@ -67,48 +67,47 @@ To enable https connections, the following requirements should be met:
 
 ##### Create a SSL certificate using certbot
 ```bash
-    # Install snap store 
-    sudo apt install snapd
+# Install snap store 
+sudo apt install snapd
 
-    # Update the snap packages
-    sudo snap install core; sudo snap refresh core
+# Update the snap packages
+sudo snap install core; sudo snap refresh core
 
-    # Install certbox
-    sudo snap install --classic certbot
+# Install certbox
+sudo snap install --classic certbot
 
-    # Link
-    sudo ln -s /snap/bin/certbot /usr/bin/certbot
+# Link
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
 
-    # Stop the nginx server because it may already be occupying port:80
-    sudo systemctl stop nginx
+# Stop the nginx server because it may already be occupying port:80
+sudo systemctl stop nginx
 
-    # Install the certificate only
-    # Assuming the created sub-domain is "backend.automovill.com"
-    # Change it with appropriate sub-domain name 
-    sudo certbot certonly --standalone -d backend.automovill.com
+# Install the certificate only
+# Assuming the created sub-domain is "backend.automovill.com"
+# Change it with appropriate sub-domain name 
+sudo certbot certonly --standalone -d backend.automovill.com
 
-    # Modify the /etc/nginx/sites-available/default
-    vim /etc/nginx/sites-available/default
+# Modify the /etc/nginx/sites-available/default
+vim /etc/nginx/sites-available/default
 ```
 
 Add the following lines to the file
   - read the existing text, and modify accordingly, the above is just the structure
   - remove the existing location / route, otherwise error will show up.
 ```text
-    listen 443 ssl;
-    server_name _;  # Listen on any hostname (wildcard)
+listen 443 ssl;
+server_name _;  # Listen on any hostname (wildcard)
 
-    ssl_certificate /etc/letsencrypt/live/backend.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/backend.com/privkey.pem;
+ssl_certificate /etc/letsencrypt/live/backend.com/fullchain.pem;
+ssl_certificate_key /etc/letsencrypt/live/backend.com/privkey.pem;
 
-    location / {
-            proxy_pass http://127.0.0.1:8080;  # Forward to Spring Boot
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-
-    }
+location / {
+    proxy_pass http://127.0.0.1:8080;  # Forward to Spring Boot
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+}
 ```
 Save the file(:wq)
 ```bash
