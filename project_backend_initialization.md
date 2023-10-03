@@ -380,6 +380,7 @@ sudo systemctl start runSpringbootBackend
 Now, the application will always be running
 
 ##### Rebuild and Update on changes in code
+CI-CD is not set-up, so it is done manually using a script
 **Create a rebuild.sh script**
 Run this script after you push any changes to the github-repo
 
