@@ -285,7 +285,7 @@ Refer to the steps in [Build and Run](#build-and-run)
 **Use Postman or some other similar app to send a POST request to add an admin level user**
 `Example Request`
 ```http
-POST backendDomain/api/v1/auth/register
+POST /api/v1/auth/register
 Content-Type: application/json
 {
     "username": "tempAdminName",
