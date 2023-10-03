@@ -245,7 +245,7 @@ Currently in the back-end:
 - if needed, later remove the temp admin(if other admin level users exist), since other admin user/s are present, and they can be used for adding more users
 
 
-**Remove the check for admin token**
+**Remove the check for admin token**<br>
 The following steps are to be followed:
 - Navigate to the SecurityConfig.java file
 ```bash
@@ -279,10 +279,10 @@ vim SecurityConfiguration.java
 
 - After adding an admin user, change the code back to its original state(uncomment the lines of code)
 
-**Re-Build and run the application**
+**Re-Build and run the application**<br>
 Refer to the steps in [Build and Run](#build-and-run)
 
-**Use Postman or some other similar app to send a POST request to add an admin level user**
+**Use Postman or some other similar app to send a POST request to add an admin level user**<br>
 `Example Request`
 ```http
 POST /api/v1/auth/register
@@ -306,7 +306,7 @@ Use the token returned to create future users.
 The token can also be retrieved/regenerated in case of expiry by logging is using the `/api/v1/auth/authenticate` end-point, this end-point is open for all
 
 
-**Re-Add the check for admin token**
+**Re-Add the check for admin token**<br>
 The following steps are to be followed:
 - Navigate to the SecurityConfig.java file
 ```bash
